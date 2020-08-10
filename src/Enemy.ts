@@ -66,9 +66,7 @@ class Enemy extends Phaser.GameObjects.Sprite{
         let pt = waypoints[waypoints.length-1];
         this.portal = new Phaser.Math.Vector2(pt.x,pt.y);
 
-        for (let i=0; i<waypoints.length; i++){
-            this.waypoints[i] = new Phaser.Math.Vector2(waypoints[i].x, waypoints[i].y);
-        }        
+        this.waypoints = waypoints;    
     }
 
 
