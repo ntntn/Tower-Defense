@@ -68,16 +68,22 @@ class GameScene extends Phaser.Scene {
         this.enemySprites = [];
         this.projectiles = [];
 
+        this.events.addListener('enemydeath', this.handleEnemyDeath, this);
+
         let start = this.add.sprite(500, 1150, 'start');
         start.setInteractive();
         start.on('pointerdown', this.handleStart, this);
     }
 
+    handleEnemyDeath(enemy){
+        this.enemies = this.enemies.filter((en) => en!=enemy);
+    }
+
     drawMap(map){
-        for (let y = 0; y < this.map.length; y++) {
-            for (let x = 0; x < this.map[y].length; x++) {
+        for (let y = 0; y < map.length; y++) {
+            for (let x = 0; x < map[y].length; x++) {
                 let type: String
-                switch (this.map[y][x]) {
+                switch (map[y][x]) {
                     case 1:
                         //build road Tile
                         type = 'roadTile'

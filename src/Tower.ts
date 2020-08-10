@@ -5,7 +5,7 @@ class Tower extends Phaser.GameObjects.Sprite {
     time:number
     cooldown:number
     timer:Phaser.Time.TimerEvent
-    constructor(scene, x, y, texture = 'tower', range = 2, cooldown = 1){
+    constructor(scene, x, y, texture = 'tower', range = 1.5, cooldown = 1){
         super(scene,x,y,texture);
         this.displayHeight = 160;
         this.displayWidth = 80;

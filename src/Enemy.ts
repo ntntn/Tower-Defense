@@ -6,6 +6,7 @@ class Enemy extends Phaser.GameObjects.Sprite{
     portal:Phaser.Math.Vector2
     reachedPortal:boolean
     hp:number
+    dead: boolean
     constructor(scene, x, y, hp=10, speed=2){
         super(scene,x,y,'enemy');
 
@@ -20,6 +21,10 @@ class Enemy extends Phaser.GameObjects.Sprite{
         this.reachedPortal = false;
 
         scene.add.existing(this);
+    }
+
+    update(scene){
+        this.moveAlongPath();
     }
 
     moveAlongPath(){
@@ -46,6 +51,8 @@ class Enemy extends Phaser.GameObjects.Sprite{
 
     handlePathFinished(){
         this.reachedPortal = true;
+        //FIXME
+        this.dead = true;
         this.destroy();
     }
 
@@ -58,6 +65,22 @@ class Enemy extends Phaser.GameObjects.Sprite{
         }        
     }
 
+    takeDamage(value){
+        this.hp -= value;
+
+        if (this.hp<=0){
+            this.handleDeath();
+        }
+    }
+
+    handleDeath(){
+        if (this.dead) return;
+
+        this.scene.events.emit('enemydeath', this);
+        //FIXME
+        this.dead = true;
+        this.destroy();
+    }
 
     move(dx,dy){
         this.x+=dx*this.speed;
