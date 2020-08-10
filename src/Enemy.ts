@@ -30,24 +30,11 @@ class Enemy extends Phaser.GameObjects.Sprite{
 
         let dx = this.waypoints[0].x - this.x;
         let dy = this.waypoints[0].y - this.y;
+        let vec = new Phaser.Math.Vector2(dx,dy);
 
-        let magnitude = Math.sqrt(dx*dx+dy*dy);
-
-/*         if (this.waypoints[0].x == this.portal.x && this.waypoints[0].y == this.portal.y) {
-            //destroy this enemy
-            if (magnitude<1){
-                this.reachedPortal = true;
-                this.destroy();
-            }
-        } */       
-
-        if (magnitude>1){
-            dx /= magnitude;
-            dy /= magnitude;            
-        }
-        else this.waypoints.shift();    
-
-        this.move(dx,dy);
+        if (vec.length()<1) this.waypoints.shift();
+        vec = vec.normalize();
+        this.move(vec.x,vec.y);
     }
 
     isPathFinished(){
@@ -66,7 +53,9 @@ class Enemy extends Phaser.GameObjects.Sprite{
         let pt = waypoints[waypoints.length-1];
         this.portal = new Phaser.Math.Vector2(pt.x,pt.y);
 
-        this.waypoints = waypoints;    
+        for (let i=0; i<waypoints.length; i++){
+            this.waypoints[i] = new Phaser.Math.Vector2(waypoints[i].x, waypoints[i].y);
+        }        
     }
 
 
