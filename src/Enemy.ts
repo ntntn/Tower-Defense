@@ -1,6 +1,7 @@
-import GameScene from "./GameScene";
+import GameObject from "./GameObject";
+import { GameObjects } from "phaser";
 
-class Enemy extends Phaser.GameObjects.Sprite{
+class Enemy extends GameObject{
     speed:number
     waypoints:Phaser.Math.Vector2[]
     portal:Phaser.Math.Vector2
@@ -19,19 +20,18 @@ class Enemy extends Phaser.GameObjects.Sprite{
         this.waypoints = [];
 
         this.reachedPortal = false;
-
-        scene.add.existing(this);
     }
 
     update(scene){
+        if (this.isPathFinished()){
+            this.handlePathFinished();
+        }
+        
         this.moveAlongPath();
     }
 
     moveAlongPath(){
         if (this.waypoints[0] == undefined) return;
-        if (this.isPathFinished()){
-            this.handlePathFinished();
-        }
 
         let dx = this.waypoints[0].x - this.x;
         let dy = this.waypoints[0].y - this.y;
@@ -47,13 +47,6 @@ class Enemy extends Phaser.GameObjects.Sprite{
         let dy = this.y - this.portal.y;
         let magnitude = Math.sqrt(dx*dx+dy*dy);
         return magnitude<1;
-    }
-
-    handlePathFinished(){
-        this.reachedPortal = true;
-        //FIXME
-        this.dead = true;
-        this.destroy();
     }
 
     setWaypoints(waypoints){
@@ -73,12 +66,24 @@ class Enemy extends Phaser.GameObjects.Sprite{
         }
     }
 
-    handleDeath(){
-        if (this.dead) return;
-
-        this.scene.events.emit('enemydeath', this);
+    handlePathFinished(){
+        this.reachedPortal = true;
         //FIXME
         this.dead = true;
+
+        this.scene.events.emit('enemyreached', this);
+
+        this.destroy();
+    }
+
+    handleDeath(){
+        //FIXME
+        if (this.dead) return;
+
+        this.scene.events.emit('destroyobject', this);
+        //FIXME
+        this.dead = true;
+
         this.destroy();
     }
 

@@ -1,4 +1,5 @@
 import Projectile from './Projectile';
+import Enemy from './Enemy';
 
 class Tower extends Phaser.GameObjects.Sprite {
     range:number
@@ -18,15 +19,18 @@ class Tower extends Phaser.GameObjects.Sprite {
     }
 
     update(scene){
-        //
-        for (let i=0; i<scene.enemies.length; i++){
-            let e = scene.enemies[i];
+        //FIXME (scene.enemyManager.getEnemies())??
+        let enemies = scene.objects.filter((obj) => obj instanceof Enemy);
+        console.log(enemies);
+
+        for (let i=0; i<enemies.length; i++){
+            let e = enemies[i];
             let distance = new Phaser.Math.Vector2(e.x, e.y).subtract(new Phaser.Math.Vector2(this.x, this.y)).length();
             
             if (distance<=this.range*scene.tileSize){
                 if (!this.timer || this.timer.getProgress() === 1){
                     this.startCooldown(scene);
-                    this.attack(scene, scene.enemies[i]);
+                    this.attack(scene, enemies[i]);
                 }
             }
         }
@@ -38,7 +42,8 @@ class Tower extends Phaser.GameObjects.Sprite {
 
     attack(scene, enemy){
         console.log('Attack');
-        scene.projectiles.push(new Projectile(scene, this.x, this.y-60, enemy));
+        //addobject Emit Event.....?
+        scene.objects.push(new Projectile(scene, this.x, this.y-60, enemy));
     }
 }
 

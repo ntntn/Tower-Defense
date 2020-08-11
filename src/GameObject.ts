@@ -3,4 +3,9 @@ class GameObject extends Phaser.GameObjects.Sprite{
         super(scene,x,y,texture);
         scene.add.existing(this);
     }
+
+    update(scene){        
+    }
 }
+
+export default GameObject;

@@ -16,14 +16,12 @@ class Projectile extends Phaser.GameObjects.Sprite{
     }
 
     update(scene){
-        //FIXME
-        if (this.target.dead) this.destroy(scene);
-
         let direction = new Phaser.Math.Vector2(this.target.x, this.target.y).subtract(new Phaser.Math.Vector2(this.x,this.y))
 
         if (this.targetReached(direction)){
-            this.damageTarget(scene);
-            this.destroy(scene);
+            this.damageTarget();
+            this.destroy();
+            return;
         }
 
         direction = direction.normalize();
@@ -32,17 +30,17 @@ class Projectile extends Phaser.GameObjects.Sprite{
     }
 
     
-    targetReached(direction){
+    targetReached(direction:Phaser.Math.Vector2){
         return direction.length()<=10;
     }
 
-    damageTarget(scene){
+    damageTarget(){
         this.target.takeDamage(this.damage);
     }
 
-    destroy(scene){
+    destroy(){
+        this.scene.events.emit('destroyobject',this);
         super.destroy();
-        scene.projectiles = scene.projectiles.filter((proj) => proj != this);
     }
 
 }
