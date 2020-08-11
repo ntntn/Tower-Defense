@@ -21,7 +21,6 @@ class Tower extends Phaser.GameObjects.Sprite {
     update(scene){
         //FIXME (scene.enemyManager.getEnemies())??
         let enemies = scene.objects.filter((obj) => obj instanceof Enemy);
-        console.log(enemies);
 
         for (let i=0; i<enemies.length; i++){
             let e = enemies[i];

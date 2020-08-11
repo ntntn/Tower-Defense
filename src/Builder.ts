@@ -3,8 +3,10 @@ import GameScene from "./GameScene";
 
 class Builder {
     scene:GameScene
+    buildmode:string
     constructor(scene){
         this.scene = scene;
+        this.buildmode = 'tower';
     }
 
     buildMap(map){
