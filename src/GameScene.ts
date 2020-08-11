@@ -30,9 +30,10 @@ class GameScene extends Phaser.Scene {
 
         this.load.image('multistrikeTower', './assets/sprites/multistrikeTower.png');
         this.load.image('slowTower', './assets/sprites/slowTower.png');
-        this.load.image('magicTower', './assets/sprites/magicTower.png');
+        this.load.image('lazerTower', './assets/sprites/lazerTower.png');
 
         this.load.image('projectile', './assets/sprites/projectile.png');
+        this.load.image('fireball', './assets/sprites/fireball.png');
         this.load.spritesheet('enemyPortal', './assets/sprites/portal.png', {
             frameWidth: 1024,
             frameHeight: 1024,
@@ -43,6 +44,8 @@ class GameScene extends Phaser.Scene {
         });
         this.load.image('start', './assets/sprites/start.png');
         this.load.image('enemy', './assets/sprites/enemy3.png');
+
+        this.load.atlas('lazer', './assets/sprites/lazer/lazer.png', 'assets/sprites/lazer/lazer.json');
     }
 
     create() {
@@ -59,6 +62,15 @@ class GameScene extends Phaser.Scene {
 
         this.addListeners();
         this.createUI();
+
+
+        //LAZER MECHANIC TEST
+/*         let sprite = this.add.sprite(200,200,'lazer');
+        sprite.displayWidth = 64;
+        sprite.displayHeight = 164;
+        sprite.angle = 30;
+        this.anims.play('blast', sprite); */
+        this.anims.create({ key: 'blast', frames: this.anims.generateFrameNames('lazer', { prefix: 'lazer_', start: 0, end: 8, zeroPad: 2 }), repeat: -1 });
     }
 
     createUI(){
@@ -66,7 +78,7 @@ class GameScene extends Phaser.Scene {
         this.addTowerPanel(1200,100, 'tower');
         this.addTowerPanel(1200,228, 'multistrikeTower');
         this.addTowerPanel(1200,228+128, 'slowTower');
-        this.addTowerPanel(1200,228+128*2, 'magicTower');
+        this.addTowerPanel(1200,228+128*2, 'lazerTower');
     }
 
     addTowerPanel(x,y,label){
@@ -102,7 +114,7 @@ class GameScene extends Phaser.Scene {
     }
 
     handleStart(this: GameScene) {
-        this.createEnemies(10, this.portals[0]);
+        this.createEnemies(1, this.portals[0]);
         this.started = true;
     }
 

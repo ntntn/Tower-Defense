@@ -1,4 +1,6 @@
-import Tower from "./Tower";
+import ProjectileTower from './ProjectileTower';
+import MultistrikeTower from './MultistrikeTower';
+import LazerTower from "./LazerTower";
 
 class TowerFactory {
     x:number
@@ -16,11 +18,13 @@ class TowerFactory {
         console.log(this.type);
         switch(this.type){
             case 'tower':
-                return new Tower(this.scene,this.x,this.y,'tower');
+                return new ProjectileTower(this.scene,this.x,this.y, this.type);
             case 'multistrikeTower':
-                return new Tower(this.scene,this.x,this.y,'multistrikeTower');
+                return new MultistrikeTower(this.scene,this.x,this.y, this.type);
+            case 'lazerTower':
+                return new LazerTower(this.scene, this.x, this.y, this.type);
             default:
-                return new Tower(this.scene,this.x,this.y, this.type);
+                return new ProjectileTower(this.scene,this.x,this.y, this.type);
                 break;
         }
     }

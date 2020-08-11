@@ -5,7 +5,7 @@ class Projectile extends Phaser.GameObjects.Sprite{
     speed:number
     target:Enemy
     damage:number
-    constructor(scene,x,y, target, damage = 5, speed = 6, texture = 'projectile'){
+    constructor(scene,x,y, target, damage = 5, texture = 'projectile', speed = 6){
         super(scene,x,y,texture);
         this.displayWidth = 48;
         this.displayHeight = 48;
